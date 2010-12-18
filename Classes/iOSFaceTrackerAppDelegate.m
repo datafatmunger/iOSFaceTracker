@@ -129,7 +129,7 @@
 	[self.window.layer addSublayer:previewLayer];
 	[self.session startRunning];
 #endif
-	contentView = [[ContentView alloc] initWithFrame:window.frame];
+	contentView = [[iOSFTContentView alloc] initWithFrame:window.frame];
 	[self.window addSubview:contentView];
 	
 	[self.window makeKeyAndVisible];

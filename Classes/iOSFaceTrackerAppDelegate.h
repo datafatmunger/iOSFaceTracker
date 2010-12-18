@@ -7,7 +7,7 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
-#import "ContentView.h"
+#import "iOSFTContentView.h"
 #import <opencv/cv.h>
 #import <UIKit/UIKit.h>
 
@@ -25,7 +25,7 @@
 	CvMemStorage* storage;
 #endif
     UIWindow *window;
-	ContentView *contentView;
+	iOSFTContentView *contentView;
 	
 	CGRect prevRect;
 }
