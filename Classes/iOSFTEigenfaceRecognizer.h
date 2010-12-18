@@ -19,6 +19,7 @@
 	IplImage **eigenVectArr; // eigenvectors
 	CvMat *eigenValMat; // eigenvalues
 	CvMat *projectedTrainFaceMat; // projected training faces
+	CvMat *trainPersonNumMat;  // the person numbers during training
 	
 }
 

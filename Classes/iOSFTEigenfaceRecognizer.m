@@ -27,17 +27,18 @@
 		eigenVectArr = 0; // eigenvectors
 		eigenValMat = 0; // eigenvalues
 		projectedTrainFaceMat = 0; // projected training faces
+		trainPersonNumMat = 0;  // the person numbers during training
+		
+		// load the saved training data
+		NSAssert([self loadTrainingData:&trainPersonNumMat],
+				 @"Training data load FAIL.");
 	}
 	return self;
 }
 
 -(void)recognize:(IplImage*)face {
 
-	CvMat *trainPersonNumMat = 0;  // the person numbers during training
 	float *projectedTestFace = 0;
-	
-	// load the saved training data
-	if(![self loadTrainingData:&trainPersonNumMat]) return;
 	
 	// project the test images onto the PCA subspace
 	projectedTestFace = (float *)cvAlloc( nEigens*sizeof(float) );
