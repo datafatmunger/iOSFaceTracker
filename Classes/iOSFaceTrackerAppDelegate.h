@@ -6,34 +6,21 @@
 //  Copyright 2010 Sogeo. All rights reserved.
 //
 
-#import <AVFoundation/AVFoundation.h>
-#import "iOSFTContentView.h"
-#import <opencv/cv.h>
-#import <UIKit/UIKit.h>
 
-@interface iOSFaceTrackerAppDelegate : NSObject <UIApplicationDelegate
-#if TARGET_OS_EMBEDDED
-, AVCaptureVideoDataOutputSampleBufferDelegate
-#endif
-> {
-	
-#if TARGET_OS_EMBEDDED
-	AVCaptureSession *session;
-	AVCaptureVideoDataOutput *dataOutput;
-	AVCaptureDeviceInput *captureInput;
-	CvHaarClassifierCascade* cascade;
-	CvMemStorage* storage;
-#endif
+#import "iOSFTCameraViewController.h"
+#import "iOSFTSettingsController.h"
+
+@interface iOSFaceTrackerAppDelegate : NSObject <UIApplicationDelegate> {
+
+	iOSFTCameraViewController *cameraController;
+	iOSFTSettingsController *settingsController;
     UIWindow *window;
-	iOSFTContentView *contentView;
-	
-	CGRect prevRect;
+
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-#if TARGET_OS_EMBEDDED
-@property(retain) AVCaptureSession *session;
-#endif
+@property (nonatomic, retain) IBOutlet iOSFTCameraViewController *cameraController;
+@property (nonatomic, retain) IBOutlet iOSFTSettingsController *settingsController;
 
 @end
 

@@ -12,7 +12,6 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
-		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		58105A8212BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 58105A8112BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.m */; };
 		58539CE312B58F1B00ED37EC /* iOSFTContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58539CE212B58F1B00ED37EC /* iOSFTContentView.m */; };
 		58539CE812B5905A00ED37EC /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58539CE712B5905A00ED37EC /* CoreMedia.framework */; };
@@ -21,6 +20,16 @@
 		5885FE9212B592AB00231577 /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5885FE9012B592AB00231577 /* haarcascade_eye.xml */; };
 		5885FE9312B592AB00231577 /* haarcascade_frontalface_default.xml in Resources */ = {isa = PBXBuildFile; fileRef = 5885FE9112B592AB00231577 /* haarcascade_frontalface_default.xml */; };
 		5885FEB212B594D100231577 /* eigenface.c in Sources */ = {isa = PBXBuildFile; fileRef = 5885FEB112B594D100231577 /* eigenface.c */; };
+		5893507912BE08C0002271F6 /* iOSFTEigenfaceTrainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5893507812BE08C0002271F6 /* iOSFTEigenfaceTrainer.m */; };
+		5893509D12BE0D36002271F6 /* libfacebook_ios_sdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5893509C12BE0D32002271F6 /* libfacebook_ios_sdk.a */; };
+		589350AC12BE0D42002271F6 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 589350AB12BE0D42002271F6 /* FBDialog.bundle */; };
+		589350BF12BE0E1D002271F6 /* iOSFTSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 589350BE12BE0E1D002271F6 /* iOSFTSettingsController.m */; };
+		589F9D2112C36909001708E9 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 589F9D2012C36909001708E9 /* MainWindow.xib */; };
+		589F9D2412C369AA001708E9 /* iOSFTCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 589F9D2312C369AA001708E9 /* iOSFTCameraViewController.m */; };
+		589F9D4312C36CBC001708E9 /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 589F9D4112C36CBC001708E9 /* SettingsView.xib */; };
+		589F9D4412C36CBC001708E9 /* CameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 589F9D4212C36CBC001708E9 /* CameraView.xib */; };
+		589F9E9D12C37EB8001708E9 /* FBConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 589F9E9C12C37EB8001708E9 /* FBConnect.bundle */; };
+		589F9FE812C399EF001708E9 /* iOSFTUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 589F9FE712C399EF001708E9 /* iOSFTUtils.m */; };
 		58B37A6312BCEBF600ECA2D1 /* libopencv_calib3d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A4F12BCEBF600ECA2D1 /* libopencv_calib3d.a */; };
 		58B37A6412BCEBF600ECA2D1 /* libopencv_calib3dd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A5012BCEBF600ECA2D1 /* libopencv_calib3dd.a */; };
 		58B37A6512BCEBF600ECA2D1 /* libopencv_contrib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A5112BCEBF600ECA2D1 /* libopencv_contrib.a */; };
@@ -43,6 +52,23 @@
 		58B37A7612BCEBF600ECA2D1 /* libopencv_videod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A6212BCEBF600ECA2D1 /* libopencv_videod.a */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		5893509B12BE0D32002271F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5893509412BE0D32002271F6 /* facebook-ios-sdk.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = "facebook-ios-sdk";
+		};
+		589F9EBB12C37F75001708E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5893509412BE0D32002271F6 /* facebook-ios-sdk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D /* facebook-ios-sdk */;
+			remoteInfo = "facebook-ios-sdk";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* iOSFaceTrackerAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFaceTrackerAppDelegate.h; sourceTree = "<group>"; };
@@ -50,7 +76,6 @@
 		1D6058910D05DD3D006BFB54 /* iOSFaceTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSFaceTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* iOSFaceTracker_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFaceTracker_Prefix.pch; sourceTree = "<group>"; };
 		58105A8012BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFTEigenfaceRecognizer.h; sourceTree = "<group>"; };
@@ -63,6 +88,20 @@
 		5885FE9012B592AB00231577 /* haarcascade_eye.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_eye.xml; sourceTree = "<group>"; };
 		5885FE9112B592AB00231577 /* haarcascade_frontalface_default.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = haarcascade_frontalface_default.xml; sourceTree = "<group>"; };
 		5885FEB112B594D100231577 /* eigenface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eigenface.c; sourceTree = "<group>"; };
+		5893507712BE08C0002271F6 /* iOSFTEigenfaceTrainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFTEigenfaceTrainer.h; sourceTree = "<group>"; };
+		5893507812BE08C0002271F6 /* iOSFTEigenfaceTrainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSFTEigenfaceTrainer.m; sourceTree = "<group>"; };
+		5893509412BE0D32002271F6 /* facebook-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "facebook-ios-sdk.xcodeproj"; path = "../facebook-ios-sdk/src/facebook-ios-sdk.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		589350AB12BE0D42002271F6 /* FBDialog.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBDialog.bundle; sourceTree = "<group>"; };
+		589350BD12BE0E1D002271F6 /* iOSFTSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFTSettingsController.h; sourceTree = "<group>"; };
+		589350BE12BE0E1D002271F6 /* iOSFTSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSFTSettingsController.m; sourceTree = "<group>"; };
+		589F9D2012C36909001708E9 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		589F9D2212C369AA001708E9 /* iOSFTCameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFTCameraViewController.h; sourceTree = "<group>"; };
+		589F9D2312C369AA001708E9 /* iOSFTCameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSFTCameraViewController.m; sourceTree = "<group>"; };
+		589F9D4112C36CBC001708E9 /* SettingsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
+		589F9D4212C36CBC001708E9 /* CameraView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CameraView.xib; sourceTree = "<group>"; };
+		589F9E9C12C37EB8001708E9 /* FBConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBConnect.bundle; sourceTree = "<group>"; };
+		589F9FE612C399EF001708E9 /* iOSFTUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFTUtils.h; sourceTree = "<group>"; };
+		589F9FE712C399EF001708E9 /* iOSFTUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSFTUtils.m; sourceTree = "<group>"; };
 		58B37A1712BCEBF600ECA2D1 /* cv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cv.h; sourceTree = "<group>"; };
 		58B37A1812BCEBF600ECA2D1 /* cv.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = cv.hpp; sourceTree = "<group>"; };
 		58B37A1912BCEBF600ECA2D1 /* cvaux.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cvaux.h; sourceTree = "<group>"; };
@@ -160,6 +199,7 @@
 				58B37A7412BCEBF600ECA2D1 /* libopencv_objdetectd.a in Frameworks */,
 				58B37A7512BCEBF600ECA2D1 /* libopencv_video.a in Frameworks */,
 				58B37A7612BCEBF600ECA2D1 /* libopencv_videod.a in Frameworks */,
+				5893509D12BE0D36002271F6 /* libfacebook_ios_sdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,10 +212,18 @@
 				5885FEB112B594D100231577 /* eigenface.c */,
 				1D3623240D0F684500981E51 /* iOSFaceTrackerAppDelegate.h */,
 				1D3623250D0F684500981E51 /* iOSFaceTrackerAppDelegate.m */,
+				589F9D2212C369AA001708E9 /* iOSFTCameraViewController.h */,
+				589F9D2312C369AA001708E9 /* iOSFTCameraViewController.m */,
 				58539CE112B58F1B00ED37EC /* iOSFTContentView.h */,
 				58539CE212B58F1B00ED37EC /* iOSFTContentView.m */,
 				58105A8012BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.h */,
 				58105A8112BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.m */,
+				5893507712BE08C0002271F6 /* iOSFTEigenfaceTrainer.h */,
+				5893507812BE08C0002271F6 /* iOSFTEigenfaceTrainer.m */,
+				589350BD12BE0E1D002271F6 /* iOSFTSettingsController.h */,
+				589350BE12BE0E1D002271F6 /* iOSFTSettingsController.m */,
+				589F9FE612C399EF001708E9 /* iOSFTUtils.h */,
+				589F9FE712C399EF001708E9 /* iOSFTUtils.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -191,6 +239,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				5893509412BE0D32002271F6 /* facebook-ios-sdk.xcodeproj */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				58B37A1412BCEBF600ECA2D1 /* OpenCV */,
@@ -213,11 +262,15 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				589F9D4212C36CBC001708E9 /* CameraView.xib */,
 				5885FEBA12B595DF00231577 /* faces */,
+				589F9E9C12C37EB8001708E9 /* FBConnect.bundle */,
+				589350AB12BE0D42002271F6 /* FBDialog.bundle */,
 				5885FE9012B592AB00231577 /* haarcascade_eye.xml */,
 				5885FE9112B592AB00231577 /* haarcascade_frontalface_default.xml */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* iOSFaceTracker-Info.plist */,
+				589F9D2012C36909001708E9 /* MainWindow.xib */,
+				589F9D4112C36CBC001708E9 /* SettingsView.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -240,6 +293,14 @@
 			children = (
 			);
 			path = faces;
+			sourceTree = "<group>";
+		};
+		5893509512BE0D32002271F6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5893509C12BE0D32002271F6 /* libfacebook_ios_sdk.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		58B37A1412BCEBF600ECA2D1 /* OpenCV */ = {
@@ -446,6 +507,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				589F9EBC12C37F75001708E9 /* PBXTargetDependency */,
 			);
 			name = iOSFaceTracker;
 			productName = iOSFaceTracker;
@@ -469,6 +531,12 @@
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 5893509512BE0D32002271F6 /* Products */;
+					ProjectRef = 5893509412BE0D32002271F6 /* facebook-ios-sdk.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* iOSFaceTracker */,
@@ -476,14 +544,28 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		5893509C12BE0D32002271F6 /* libfacebook_ios_sdk.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libfacebook_ios_sdk.a;
+			remoteRef = 5893509B12BE0D32002271F6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		1D60588D0D05DD3D006BFB54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				5885FE9212B592AB00231577 /* haarcascade_eye.xml in Resources */,
 				5885FE9312B592AB00231577 /* haarcascade_frontalface_default.xml in Resources */,
+				589350AC12BE0D42002271F6 /* FBDialog.bundle in Resources */,
+				589F9D2112C36909001708E9 /* MainWindow.xib in Resources */,
+				589F9D4312C36CBC001708E9 /* SettingsView.xib in Resources */,
+				589F9D4412C36CBC001708E9 /* CameraView.xib in Resources */,
+				589F9E9D12C37EB8001708E9 /* FBConnect.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,10 +581,22 @@
 				58539CE312B58F1B00ED37EC /* iOSFTContentView.m in Sources */,
 				5885FEB212B594D100231577 /* eigenface.c in Sources */,
 				58105A8212BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.m in Sources */,
+				5893507912BE08C0002271F6 /* iOSFTEigenfaceTrainer.m in Sources */,
+				589350BF12BE0E1D002271F6 /* iOSFTSettingsController.m in Sources */,
+				589F9D2412C369AA001708E9 /* iOSFTCameraViewController.m in Sources */,
+				589F9FE812C399EF001708E9 /* iOSFTUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		589F9EBC12C37F75001708E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "facebook-ios-sdk";
+			targetProxy = 589F9EBB12C37F75001708E9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -515,7 +609,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iOSFaceTracker_Prefix.pch;
-				HEADER_SEARCH_PATHS = "OpenCV/include/**";
+				HEADER_SEARCH_PATHS = (
+					"../facebook-ios-sdk/src/**",
+					"OpenCV/include/**",
+				);
 				INFOPLIST_FILE = "iOSFaceTracker-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
