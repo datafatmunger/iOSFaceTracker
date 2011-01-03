@@ -59,9 +59,22 @@
 			cvSetImageROI(small_image, cvrect);
 			IplImage *cropped_image = cvCreateImage(cvGetSize(small_image), small_image->depth, small_image->nChannels);
 			cvCopy(small_image, cropped_image, NULL);
-			//TODO - Add Eigenface processing/searching here. - JBG
+			
+			IplImage *grey_image = nil;
+			grey_image = cvCreateImage(cvGetSize(cropped_image), IPL_DEPTH_8U, 1);
+			cvCvtColor(cropped_image, grey_image, CV_BGR2GRAY);
+			
+			IplImage *sized_image = nil;
+			sized_image = cvCreateImage(cvSize(92, 112), IPL_DEPTH_8U, 1);
+			cvResize(grey_image, sized_image, 1);
+			
+			//Recognize this face bitch - JBG
+			[recognizer recognize:sized_image];
+			
 			cvResetImageROI(small_image);
 			cvReleaseImage(&cropped_image);
+			cvReleaseImage(&grey_image);
+			cvReleaseImage(&sized_image);
 			//END - Crop and process - JBG
 			
 			
@@ -90,6 +103,9 @@
 #endif
 
 -(void)viewDidLoad {
+	
+	recognizer = [[iOSFTEigenfaceRecognizer alloc] init];
+	
 #if TARGET_OS_EMBEDDED
 	// Load XML
 	NSString *path = [[NSBundle mainBundle] pathForResource:@"haarcascade_frontalface_default" ofType:@"xml"];
@@ -100,7 +116,7 @@
 	
 	AVCaptureDevice *camera;
 	for(AVCaptureDevice *cameraDevice in cameras) {
-		if(cameraDevice.position == AVCaptureDevicePositionBack)
+		if(cameraDevice.position == AVCaptureDevicePositionFront)
 			camera = cameraDevice;
 	}
 	
@@ -134,7 +150,9 @@
 }
 
 -(IBAction)onInfo:(id)sender {
+#if TARGET_OS_EMBEDDED
 	[self.session stopRunning];
+#endif
 	
 	iOSFaceTrackerAppDelegate *appDelegate = (iOSFaceTrackerAppDelegate*)[[UIApplication sharedApplication] delegate];
 	appDelegate.settingsController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
@@ -153,7 +171,10 @@
 #pragma mark FBRequestDelegate
 
 -(void)isDone {
+#if TARGET_OS_EMBEDDED
 	[self.session startRunning];
+#endif
+	
 }
 
 @end

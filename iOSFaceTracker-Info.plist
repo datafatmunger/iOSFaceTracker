@@ -7,6 +7,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>sandbox</string>
 				<string>fb149922748392801</string>
 			</array>
 			<key>CFBundleURLName</key>

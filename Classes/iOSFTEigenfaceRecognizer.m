@@ -96,8 +96,12 @@
 	CvFileStorage * fileStorage;
 	int i;
 	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+	basePath = [basePath stringByAppendingString:@"/facedata.xml"];
+	
 	// create a file-storage interface
-	fileStorage = cvOpenFileStorage( "facedata.xml", 0, CV_STORAGE_READ );
+	fileStorage = cvOpenFileStorage([basePath cStringUsingEncoding:NSUTF8StringEncoding], 0, CV_STORAGE_READ );
 	if( !fileStorage )
 	{
 		fprintf(stderr, "Can't open facedata.xml\n");

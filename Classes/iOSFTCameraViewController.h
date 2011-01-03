@@ -9,6 +9,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 #import "iOSFTContentView.h"
+#import "iOSFTEigenfaceRecognizer.h"
 #import "iOSFTSettingsController.h"
 #import <opencv/cv.h>
 
@@ -27,6 +28,7 @@ iOSFTSettingsControllerDelegate> {
 #endif
 	
 	iOSFTContentView *contentView;
+	iOSFTEigenfaceRecognizer *recognizer;
 
 }
 

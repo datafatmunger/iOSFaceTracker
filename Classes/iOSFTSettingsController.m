@@ -21,7 +21,7 @@ static NSString* kAppId = @"149922748392801";
 @synthesize statusLabel = _statusLabel;
 
 -(IplImage*)makeProcessable:(IplImage*)iplImage {
-	IplImage *cropped_image = nil;
+	IplImage *processed_image = nil;
 	
 	IplImage *image = cvCreateImage(cvGetSize(iplImage), IPL_DEPTH_8U, 3);
 	cvCvtColor(iplImage, image, CV_BGRA2BGR);
@@ -35,7 +35,6 @@ static NSString* kAppId = @"149922748392801";
 	// Detect faces and draw rectangle on them
 	CvSeq* faces = cvHaarDetectObjects(small_image, cascade, storage, 1.2f, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(small_image->width/3, small_image->height/2));
 	
-	
 	// Draw results on the image
 	NSLog(@"found %d faces", faces->total);
 	
@@ -44,13 +43,22 @@ static NSString* kAppId = @"149922748392801";
 		
 		//START - Crop and process - JBG
 		cvSetImageROI(small_image, cvrect);
-		cropped_image = cvCreateImage(cvGetSize(small_image), small_image->depth, small_image->nChannels);
-		cvCopy(small_image, cropped_image, NULL);
-		cvResetImageROI(small_image);	
+		
+		IplImage *cropped_image = nil;
+		cropped_image = cvCreateImage(cvGetSize(small_image), IPL_DEPTH_8U, 1);
+		cvCvtColor(small_image, cropped_image, CV_BGR2GRAY);
+		
+		processed_image = cvCreateImage(cvSize(92, 112), IPL_DEPTH_8U, 1);
+		cvResize(cropped_image, processed_image, 1);
+		
+		cvReleaseImage(&cropped_image);
+		
+		cvResetImageROI(small_image);
+		
 	}
 	cvReleaseImage(&small_image);
 	
-	return cropped_image;
+	return processed_image;
 	
 }
 
@@ -85,10 +93,13 @@ static NSString* kAppId = @"149922748392801";
 		IplImage *iplImage = [iOSFTUtils createIplImageFromUIImage:uiImage];
 		
 		IplImage *cropped_image = [self makeProcessable:iplImage];
+		
 		//TODO : cropped Images are probably leaking here.
-		_trainer.faceImgArr[iFace] = cropped_image;
-		if(cropped_image != nil)
+		
+		if(cropped_image != nil) {
+			_trainer.faceImgArr[_trainer.nTrainFaces] = cropped_image;
 			_trainer.nTrainFaces++;
+		}
 	
 		cvReleaseImage(&iplImage);
 	}
@@ -177,6 +188,8 @@ static NSString* kAppId = @"149922748392801";
 #pragma mark FBSessionDelegate
 
 - (void)fbDidLogin {
+	NSLog(@"token: %@", _facebook.accessToken);
+	
 	_requestNumber = 0;
 	[_actView startAnimating];
 	

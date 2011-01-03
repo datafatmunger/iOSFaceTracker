@@ -64,7 +64,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 5893509412BE0D32002271F6 /* facebook-ios-sdk.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D /* facebook-ios-sdk */;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = "facebook-ios-sdk";
 		};
 /* End PBXContainerItemProxy section */
