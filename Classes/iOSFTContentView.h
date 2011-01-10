@@ -10,8 +10,11 @@
 
 @interface iOSFTContentView : UIView {
 	CGRect faceRect;
+	
+	UIImage *_image;
 }
 
 @property(assign)CGRect faceRect;
+@property(nonatomic,retain)IBOutlet UIImage *image;
 
 @end

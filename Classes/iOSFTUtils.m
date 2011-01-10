@@ -30,4 +30,28 @@
 	return ret;
 }
 
+// NOTE You should convert color mode as RGB before passing to this function
++(UIImage*)createUIImageFromIplImage:(IplImage *)image {
+//	NSLog(@"IplImage (%d, %d) %d bits by %d channels, %d bytes/row %s",
+//		  image->width,
+//		  image->height,
+//		  image->depth,
+//		  image->nChannels,
+//		  image->widthStep,
+//		  image->channelSeq);
+	
+	CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
+	NSData *data = [NSData dataWithBytes:image->imageData length:image->imageSize];
+	CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)data);
+	CGImageRef imageRef = CGImageCreate(image->width, image->height,
+										image->depth, image->depth * image->nChannels, image->widthStep,
+										colorSpace, kCGImageAlphaNone|kCGBitmapByteOrderDefault,
+										provider, NULL, false, kCGRenderingIntentDefault);
+	UIImage *ret = [UIImage imageWithCGImage:imageRef];
+	CGImageRelease(imageRef);
+	CGDataProviderRelease(provider);
+	CGColorSpaceRelease(colorSpace);
+	return ret;
+}
+
 @end

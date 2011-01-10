@@ -49,9 +49,11 @@
 	offset = projectedTrainFaceMat->step / sizeof(float);
 	for(i=0; i<nTrainFaces; i++)
 	{
+		IplImage *image = faceImgArr[i];
+		NSLog(@"Decompositing image (%d, %d)", image->width, image->height);
 		//int offset = i * nEigens;
 		cvEigenDecomposite(
-						   faceImgArr[i],
+						   image,
 						   nEigens,
 						   eigenVectArr,
 						   0, 0,
@@ -124,8 +126,7 @@
 	cvWrite(fileStorage, "eigenValMat", eigenValMat, cvAttrList(0,0));
 	cvWrite(fileStorage, "projectedTrainFaceMat", projectedTrainFaceMat, cvAttrList(0,0));
 	cvWrite(fileStorage, "avgTrainImg", pAvgTrainImg, cvAttrList(0,0));
-	for(i=0; i<nEigens; i++)
-	{
+	for(i=0; i<nEigens; i++) {
 		char varname[200];
 		sprintf( varname, "eigenVect_%d", i );
 		cvWrite(fileStorage, varname, eigenVectArr[i], cvAttrList(0,0));

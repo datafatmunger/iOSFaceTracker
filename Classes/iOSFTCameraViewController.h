@@ -11,6 +11,7 @@
 #import "iOSFTContentView.h"
 #import "iOSFTEigenfaceRecognizer.h"
 #import "iOSFTSettingsController.h"
+#import "iOSFTEigenfaceTrainer.h"
 #import <opencv/cv.h>
 
 @interface iOSFTCameraViewController : UIViewController <
@@ -19,6 +20,7 @@ AVCaptureVideoDataOutputSampleBufferDelegate,
 #endif
 iOSFTSettingsControllerDelegate> {
 	
+	//Training stuff - JBG
 	BOOL _trainingMode;
 	
 #if TARGET_OS_EMBEDDED
@@ -31,6 +33,9 @@ iOSFTSettingsControllerDelegate> {
 	
 	iOSFTContentView *contentView;
 	iOSFTEigenfaceRecognizer *recognizer;
+	iOSFTEigenfaceTrainer *trainer;
+	
+	UIImage *_processedImage;
 
 }
 
@@ -38,6 +43,7 @@ iOSFTSettingsControllerDelegate> {
 @property(retain) AVCaptureSession *session;
 #endif
 @property(nonatomic,retain)IBOutlet iOSFTContentView *contentView;
+@property(nonatomic,assign)BOOL trainingMode;
 
 -(IBAction)onInfo:(id)sender;
 

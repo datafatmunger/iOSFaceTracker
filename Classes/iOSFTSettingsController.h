@@ -36,6 +36,7 @@
 -(IBAction)done:(id)sender;
 -(void)formatButtons;
 -(IBAction)login:(id)sender;
+-(IBAction)onTrainingMode:(id)sender;
 
 
 

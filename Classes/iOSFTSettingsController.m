@@ -6,6 +6,7 @@
 //  Copyright 2010 Sogeo. All rights reserved.
 //
 
+#import "iOSFaceTrackerAppDelegate.h"
 #import "iOSFTEigenfaceTrainer.h"
 #import "iOSFTSettingsController.h"
 
@@ -33,6 +34,11 @@
 
 -(void)viewWillAppear:(BOOL)animated {
 	[self formatButtons];
+}
+
+-(IBAction)onTrainingMode:(id)sender {
+	iOSFaceTrackerAppDelegate *appDelegate = (iOSFaceTrackerAppDelegate*)[UIApplication sharedApplication].delegate;
+	appDelegate.cameraController.trainingMode = [sender isOn];
 }
 
 -(IBAction)done:(id)sender {

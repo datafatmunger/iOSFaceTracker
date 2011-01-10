@@ -9,16 +9,19 @@
 #import "iOSFaceTrackerAppDelegate.h"
 #import "iOSFTCameraViewController.h"
 #import "iOSFTSettingsController.h"
+#import "iOSFTUtils.h"
+
+#define NUM_TRAINING_FACES 10
 
 @implementation iOSFTCameraViewController
 
 @synthesize contentView;
-
 #if TARGET_OS_EMBEDDED
 @synthesize session;
 #endif
+@synthesize trainingMode = _trainingMode;
 
--(void)look:(uint8_t*)readblePixels width:(size_t)width height:(size_t)height {
+-(void)process:(uint8_t*)readblePixels width:(size_t)width height:(size_t)height {
 	IplImage *iplimage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 4);
 	iplimage->imageData = (char*)readblePixels;
 	//		iplimage->widthStep = bytesPerRow;
@@ -67,15 +70,27 @@
 		sized_image = cvCreateImage(cvSize(92, 112), IPL_DEPTH_8U, 1);
 		cvResize(grey_image, sized_image, 1);
 		
-		//Recognize this face bitch - JBG
-		[recognizer recognize:sized_image];
 		
-		cvResetImageROI(small_image);
-		cvReleaseImage(&cropped_image);
-		cvReleaseImage(&grey_image);
-		cvReleaseImage(&sized_image);
-		//END - Crop and process - JBG
-		
+		if(!_trainingMode) {
+			if(recognizer.nTrainFaces > 0) {
+				NSLog(@"Recogging. . .");
+				//Recognize this face bitch - JBG
+				[recognizer recognize:sized_image];
+			}
+		} else {
+			NSLog(@"Gathering training faces. . .image %d (%d, %d)",
+				  trainer.nTrainFaces,
+				  sized_image->width,
+				  sized_image->height);
+			trainer.faceImgArr[trainer.nTrainFaces] = sized_image;
+			trainer.nTrainFaces++;
+			if(trainer.nTrainFaces == NUM_TRAINING_FACES) {
+				NSLog(@"Training. . .");
+				[trainer learn];
+				_trainingMode = NO;
+				[recognizer reloadTrainingData];
+			}
+		}
 		
 		//Show results on the screen - JBG
 		CGRect cvrect2scale = CGRectMake(cvrect.x * scale,
@@ -91,14 +106,31 @@
 		cvrect2scale.origin.y  = ((centerX / (float) width) * 480) - cvrect2scale.size.height / 2;
 		
 		contentView.faceRect = cvrect2scale;
-		[contentView performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+		
+		contentView.image = [iOSFTUtils createUIImageFromIplImage:sized_image];
+		
+		cvResetImageROI(small_image);
+		cvReleaseImage(&cropped_image);
+		cvReleaseImage(&grey_image);
+		if(!_trainingMode)
+			cvReleaseImage(&sized_image);
+		else
+			;//TODO : training array leaks here - JBG
+		//END - Crop and process - JBG
 		
 	}
 	cvReleaseImage(&small_image);
+	
+	[contentView performSelectorOnMainThread:@selector(setNeedsDisplay)
+								  withObject:nil
+							   waitUntilDone:YES];
 }
 
 #if TARGET_OS_EMBEDDED
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+- (void)captureOutput:(AVCaptureOutput *)captureOutput
+didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
+	   fromConnection:(AVCaptureConnection *)connection {
+	
 	CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
 	CVPixelBufferLockBaseAddress(imageBuffer, 0);
 	
@@ -110,8 +142,7 @@
 	//	NSLog(@"bytesPerRow: %d, width %d, height %d", bytesPerRow, width, height);
 	
 	if (readblePixels) {
-		if(!_trainingMode)
-			[self look:readblePixels width:width height:height];
+		[self process:readblePixels width:width height:height];
 	}
 	
 	CVPixelBufferUnlockBaseAddress(imageBuffer,0);
@@ -119,8 +150,15 @@
 #endif
 
 -(void)viewDidLoad {
+	_processedImage = nil;
 	
 	recognizer = [[iOSFTEigenfaceRecognizer alloc] init];
+	
+	trainer = [[iOSFTEigenfaceTrainer alloc] init];
+	trainer.faceImgArr = (IplImage **)cvAlloc(NUM_TRAINING_FACES * sizeof(IplImage *));
+	
+	for(NSInteger i = 0; i < NUM_TRAINING_FACES; i++)
+		trainer.faceImgArr[i] = nil;
 	
 #if TARGET_OS_EMBEDDED
 	// Load XML
@@ -163,6 +201,8 @@
 	
 	[self.view addSubview:contentView];
 	
+	[previewLayer release];
+	
 }
 
 -(IBAction)onInfo:(id)sender {
@@ -176,6 +216,8 @@
 }
 
 - (void)dealloc {
+	[recognizer release], recognizer = nil;
+	[trainer release], trainer = nil;
 #if TARGET_OS_EMBEDDED
 	cvReleaseMemStorage(&storage);
 	cvReleaseHaarClassifierCascade(&cascade);

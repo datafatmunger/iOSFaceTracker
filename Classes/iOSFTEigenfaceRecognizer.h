@@ -11,8 +11,7 @@
 #import <opencv/cvaux.h>
 
 @interface iOSFTEigenfaceRecognizer : NSObject {
-	
-	CvMat *personNumTruthMat; // array of person numbers
+
 	int nTrainFaces; // the number of training images
 	int nEigens; // the number of eigenvalues
 	IplImage *pAvgTrainImg; // the average image
@@ -20,9 +19,11 @@
 	CvMat *eigenValMat; // eigenvalues
 	CvMat *projectedTrainFaceMat; // projected training faces
 	CvMat *trainPersonNumMat;  // the person numbers during training
-	
 }
 
+@property(readonly)int nTrainFaces;
+
 -(void)recognize:(IplImage*)face;
+-(void)reloadTrainingData;
 
 @end

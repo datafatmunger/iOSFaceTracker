@@ -14,6 +14,7 @@
 
 }
 
-+(IplImage*)createIplImageFromUIImage:(UIImage *)image;
++(IplImage*)createIplImageFromUIImage:(UIImage*)image;
++(UIImage *)createUIImageFromIplImage:(IplImage*)image;
 
 @end

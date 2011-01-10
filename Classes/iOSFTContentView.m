@@ -11,9 +11,11 @@
 @implementation iOSFTContentView
 
 @synthesize faceRect;
+@synthesize image = _image;
 
 -(id)initWithFrame:(CGRect)frame {
 	if(self = [super initWithFrame:frame]) {
+		_image = nil;
 		faceRect = CGRectZero;
 	}
 	return self;
@@ -30,7 +32,15 @@
 	CGContextStrokeRect(ctx, faceRect);
 	CGContextStrokePath(ctx);
 	faceRect = CGRectZero;
+	
+	[_image drawAtPoint:CGPointMake(10, rect.size.height - 112 - 10)];
 }
+
+-(void)dealloc {
+	self.image = nil;
+	[super dealloc];
+}
+	
 
 
 @end
