@@ -50,6 +50,7 @@
 		58B37A7412BCEBF600ECA2D1 /* libopencv_objdetectd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A6012BCEBF600ECA2D1 /* libopencv_objdetectd.a */; };
 		58B37A7512BCEBF600ECA2D1 /* libopencv_video.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A6112BCEBF600ECA2D1 /* libopencv_video.a */; };
 		58B37A7612BCEBF600ECA2D1 /* libopencv_videod.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58B37A6212BCEBF600ECA2D1 /* libopencv_videod.a */; };
+		58BAAF4512DB034800545A32 /* iOSFTFacebookProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BAAF4412DB034800545A32 /* iOSFTFacebookProcessor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +166,8 @@
 		58B37A6012BCEBF600ECA2D1 /* libopencv_objdetectd.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libopencv_objdetectd.a; sourceTree = "<group>"; };
 		58B37A6112BCEBF600ECA2D1 /* libopencv_video.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libopencv_video.a; sourceTree = "<group>"; };
 		58B37A6212BCEBF600ECA2D1 /* libopencv_videod.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libopencv_videod.a; sourceTree = "<group>"; };
+		58BAAF4312DB034800545A32 /* iOSFTFacebookProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSFTFacebookProcessor.h; sourceTree = "<group>"; };
+		58BAAF4412DB034800545A32 /* iOSFTFacebookProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iOSFTFacebookProcessor.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* iOSFaceTracker-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iOSFaceTracker-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,6 +223,8 @@
 				58105A8112BCDE4C00E6E269 /* iOSFTEigenfaceRecognizer.m */,
 				5893507712BE08C0002271F6 /* iOSFTEigenfaceTrainer.h */,
 				5893507812BE08C0002271F6 /* iOSFTEigenfaceTrainer.m */,
+				58BAAF4312DB034800545A32 /* iOSFTFacebookProcessor.h */,
+				58BAAF4412DB034800545A32 /* iOSFTFacebookProcessor.m */,
 				589350BD12BE0E1D002271F6 /* iOSFTSettingsController.h */,
 				589350BE12BE0E1D002271F6 /* iOSFTSettingsController.m */,
 				589F9FE612C399EF001708E9 /* iOSFTUtils.h */,
@@ -585,6 +590,7 @@
 				589350BF12BE0E1D002271F6 /* iOSFTSettingsController.m in Sources */,
 				589F9D2412C369AA001708E9 /* iOSFTCameraViewController.m in Sources */,
 				589F9FE812C399EF001708E9 /* iOSFTUtils.m in Sources */,
+				58BAAF4512DB034800545A32 /* iOSFTFacebookProcessor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

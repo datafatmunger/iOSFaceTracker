@@ -18,6 +18,85 @@
 @synthesize session;
 #endif
 
+-(void)look:(uint8_t*)readblePixels width:(size_t)width height:(size_t)height {
+	IplImage *iplimage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 4);
+	iplimage->imageData = (char*)readblePixels;
+	//		iplimage->widthStep = bytesPerRow;
+	
+	IplImage *image = cvCreateImage(cvGetSize(iplimage), IPL_DEPTH_8U, 3);
+	cvCvtColor(iplimage, image, CV_BGRA2BGR);
+	cvReleaseImage(&iplimage);
+	
+	// Scaling down
+	int scale = 2;
+	IplImage *small_image = cvCreateImage(cvSize(image->width/scale,
+												 image->height/scale),
+										  IPL_DEPTH_8U,
+										  3);
+	cvPyrDown(image, small_image, CV_GAUSSIAN_5x5);
+	cvReleaseImage(&image);
+	
+	// Detect faces and draw rectangle on them
+	CvSeq* faces = cvHaarDetectObjects(small_image,
+									   cascade,
+									   storage,
+									   1.2f,
+									   3,
+									   CV_HAAR_DO_CANNY_PRUNING,
+									   cvSize(small_image->width/3, small_image->height/2));
+	
+	
+	// Draw results on the image
+	NSLog(@"found %d faces", faces->total);
+	
+	if(faces->total > 0) {
+		CvRect cvrect = *(CvRect*)cvGetSeqElem(faces, 0);
+		
+		//START - Crop and process - JBG
+		cvSetImageROI(small_image, cvrect);
+		IplImage *cropped_image = cvCreateImage(cvGetSize(small_image),
+												small_image->depth,
+												small_image->nChannels);
+		cvCopy(small_image, cropped_image, NULL);
+		
+		IplImage *grey_image = nil;
+		grey_image = cvCreateImage(cvGetSize(cropped_image), IPL_DEPTH_8U, 1);
+		cvCvtColor(cropped_image, grey_image, CV_BGR2GRAY);
+		
+		IplImage *sized_image = nil;
+		sized_image = cvCreateImage(cvSize(92, 112), IPL_DEPTH_8U, 1);
+		cvResize(grey_image, sized_image, 1);
+		
+		//Recognize this face bitch - JBG
+		[recognizer recognize:sized_image];
+		
+		cvResetImageROI(small_image);
+		cvReleaseImage(&cropped_image);
+		cvReleaseImage(&grey_image);
+		cvReleaseImage(&sized_image);
+		//END - Crop and process - JBG
+		
+		
+		//Show results on the screen - JBG
+		CGRect cvrect2scale = CGRectMake(cvrect.x * scale,
+										 cvrect.y * scale,
+										 cvrect.width * scale,
+										 cvrect.height * scale);
+		
+		NSInteger centerX = cvrect2scale.origin.x + (cvrect2scale.size.width / 2);
+		NSInteger centerY = cvrect2scale.origin.y + (cvrect2scale.size.height / 2);
+		cvrect2scale.size.width = ((cvrect2scale.size.width / (float) height) * 320);
+		cvrect2scale.size.height = ((cvrect2scale.size.height / (float) width) * 480);
+		cvrect2scale.origin.x  = ((centerY / (float) height) * 320) - cvrect2scale.size.width / 2;
+		cvrect2scale.origin.y  = ((centerX / (float) width) * 480) - cvrect2scale.size.height / 2;
+		
+		contentView.faceRect = cvrect2scale;
+		[contentView performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
+		
+	}
+	cvReleaseImage(&small_image);
+}
+
 #if TARGET_OS_EMBEDDED
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
 	CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
@@ -31,71 +110,8 @@
 	//	NSLog(@"bytesPerRow: %d, width %d, height %d", bytesPerRow, width, height);
 	
 	if (readblePixels) {
-		IplImage *iplimage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 4);
-		iplimage->imageData = (char*)readblePixels;
-		//		iplimage->widthStep = bytesPerRow;
-		
-		IplImage *image = cvCreateImage(cvGetSize(iplimage), IPL_DEPTH_8U, 3);
-		cvCvtColor(iplimage, image, CV_BGRA2BGR);
-		cvReleaseImage(&iplimage);
-		
-		// Scaling down
-		int scale = 2;
-		IplImage *small_image = cvCreateImage(cvSize(image->width/scale,image->height/scale), IPL_DEPTH_8U, 3);
-		cvPyrDown(image, small_image, CV_GAUSSIAN_5x5);
-		cvReleaseImage(&image);
-		
-		// Detect faces and draw rectangle on them
-		CvSeq* faces = cvHaarDetectObjects(small_image, cascade, storage, 1.2f, 3, CV_HAAR_DO_CANNY_PRUNING, cvSize(small_image->width/3, small_image->height/2));
-		
-		
-		// Draw results on the image
-		NSLog(@"found %d faces", faces->total);
-		
-		if(faces->total > 0) {
-			CvRect cvrect = *(CvRect*)cvGetSeqElem(faces, 0);
-			
-			//START - Crop and process - JBG
-			cvSetImageROI(small_image, cvrect);
-			IplImage *cropped_image = cvCreateImage(cvGetSize(small_image), small_image->depth, small_image->nChannels);
-			cvCopy(small_image, cropped_image, NULL);
-			
-			IplImage *grey_image = nil;
-			grey_image = cvCreateImage(cvGetSize(cropped_image), IPL_DEPTH_8U, 1);
-			cvCvtColor(cropped_image, grey_image, CV_BGR2GRAY);
-			
-			IplImage *sized_image = nil;
-			sized_image = cvCreateImage(cvSize(92, 112), IPL_DEPTH_8U, 1);
-			cvResize(grey_image, sized_image, 1);
-			
-			//Recognize this face bitch - JBG
-			[recognizer recognize:sized_image];
-			
-			cvResetImageROI(small_image);
-			cvReleaseImage(&cropped_image);
-			cvReleaseImage(&grey_image);
-			cvReleaseImage(&sized_image);
-			//END - Crop and process - JBG
-			
-			
-			//Show results on the screen - JBG
-			CGRect cvrect2scale = CGRectMake(cvrect.x * scale,
-											 cvrect.y * scale,
-											 cvrect.width * scale,
-											 cvrect.height * scale);
-			
-			NSInteger centerX = cvrect2scale.origin.x + (cvrect2scale.size.width / 2);
-			NSInteger centerY = cvrect2scale.origin.y + (cvrect2scale.size.height / 2);
-			cvrect2scale.size.width = ((cvrect2scale.size.width / (float) height) * 320);
-			cvrect2scale.size.height = ((cvrect2scale.size.height / (float) width) * 480);
-			cvrect2scale.origin.x  = ((centerY / (float) height) * 320) - cvrect2scale.size.width / 2;
-			cvrect2scale.origin.y  = ((centerX / (float) width) * 480) - cvrect2scale.size.height / 2;
-			
-			contentView.faceRect = cvrect2scale;
-			[contentView performSelectorOnMainThread:@selector(setNeedsDisplay) withObject:nil waitUntilDone:YES];
-
-		}
-		cvReleaseImage(&small_image);
+		if(!_trainingMode)
+			[self look:readblePixels width:width height:height];
 	}
 	
 	CVPixelBufferUnlockBaseAddress(imageBuffer,0);

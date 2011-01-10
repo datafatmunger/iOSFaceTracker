@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "iOSFTUtils.h"
 #import <opencv/cv.h>
 
 @interface iOSFTUtils : NSObject {

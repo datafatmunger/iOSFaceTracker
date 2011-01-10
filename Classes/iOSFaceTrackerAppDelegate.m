@@ -35,7 +35,7 @@
 }
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-	return [[settingsController facebook] handleOpenURL:url];
+	return [settingsController.fbProcessor.facebook handleOpenURL:url];
 }
 
 - (void)dealloc {

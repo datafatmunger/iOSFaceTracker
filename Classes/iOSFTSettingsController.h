@@ -6,48 +6,37 @@
 //  Copyright 2010 Sogeo. All rights reserved.
 //
 
-#import "FBConnect.h"
 #import <Foundation/Foundation.h>
-#import "iOSFTEigenfaceTrainer.h"
-#import <opencv/cv.h>
+#import "iOSFTFacebookProcessor.h"
 
-@protocol iOSFTSettingsControllerDelegate
+@protocol iOSFTSettingsControllerDelegate <NSObject>
 
 -(void)isDone;
 
 @end
 
-
-
-@interface iOSFTSettingsController : UIViewController <FBRequestDelegate, FBSessionDelegate> {
-	Facebook *_facebook;
-	NSArray *_permissions;
-	
+@interface iOSFTSettingsController : UIViewController <iOSFTFacebookProcessorDelegate> {	
 	UIActivityIndicatorView *_actView;
 	UIButton *_facebookButton;
 	UILabel *_statusLabel;
 	
+	iOSFTFacebookProcessor *_fbProcessor;
+	
 	id<iOSFTSettingsControllerDelegate> _delegate;
-	
-	NSInteger _requestNumber;
-	
-	NSString *_profileAlbumId;
-	
-	CvHaarClassifierCascade* cascade;
-	CvMemStorage* storage;
-	
-	iOSFTEigenfaceTrainer *_trainer;
-	BOOL _failed;
 }
 
 @property(nonatomic,retain)IBOutlet id<iOSFTSettingsControllerDelegate> delegate;
-@property(nonatomic,retain)Facebook *facebook;
 @property(nonatomic,retain)IBOutlet UIActivityIndicatorView *actView;
 @property(nonatomic,retain)IBOutlet UIButton *facebookButton;
 @property(nonatomic,retain)IBOutlet UILabel *statusLabel;
 
+@property(nonatomic,retain)iOSFTFacebookProcessor *fbProcessor;
+
+
 -(IBAction)done:(id)sender;
 -(void)formatButtons;
 -(IBAction)login:(id)sender;
+
+
 
 @end

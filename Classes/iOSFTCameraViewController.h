@@ -19,6 +19,8 @@ AVCaptureVideoDataOutputSampleBufferDelegate,
 #endif
 iOSFTSettingsControllerDelegate> {
 	
+	BOOL _trainingMode;
+	
 #if TARGET_OS_EMBEDDED
 	AVCaptureSession *session;
 	AVCaptureVideoDataOutput *dataOutput;
