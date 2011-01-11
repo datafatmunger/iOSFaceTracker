@@ -12,9 +12,11 @@
 	CGRect faceRect;
 	
 	UIImage *_image;
+	NSString *_faceName;
 }
 
 @property(assign)CGRect faceRect;
-@property(nonatomic,retain)IBOutlet UIImage *image;
+@property(nonatomic,retain)UIImage *image;
+@property(nonatomic,retain)NSString *faceName;
 
 @end

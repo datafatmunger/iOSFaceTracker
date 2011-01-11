@@ -19,6 +19,8 @@
 	CvMat *eigenValMat; // eigenvalues
 	CvMat *projectedTrainFaceMat; // projected training faces
 	char **eigenNameArr;
+	
+	NSString *_faceName;
 }
 
 @property(nonatomic,readonly)int nTrainFaces;
@@ -27,6 +29,8 @@
 @property(nonatomic,readonly)IplImage **eigenVectArr;
 @property(nonatomic,readonly)CvMat *eigenValMat;
 @property(nonatomic,readonly)CvMat *projectedTrainFaceMat;
+@property(nonatomic,readonly)char **eigenNameArr;
+@property(nonatomic,retain)NSString *faceName;
 
 -(void)recognize:(IplImage*)face;
 -(void)reloadTrainingData;

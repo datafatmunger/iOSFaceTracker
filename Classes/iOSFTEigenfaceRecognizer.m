@@ -24,6 +24,8 @@
 @synthesize eigenVectArr;
 @synthesize eigenValMat;
 @synthesize projectedTrainFaceMat;
+@synthesize eigenNameArr;
+@synthesize faceName = _faceName;
 
 -(id)init {
 	if(self = [super init]) {		
@@ -55,8 +57,10 @@
 	//This would be the id of the person. . .if I stored that shit - JBG
 	//nearest  = trainPersonNumMat->data.i[iNearest];
 	if(iNearest > -1) {
-		printf("nearest = %d\n");
+		printf("nearest = %d\n", iNearest);
 		printf("name = %s\n", eigenNameArr[iNearest]);
+		if(eigenNameArr[iNearest])
+			[_faceName release], _faceName = [[NSString alloc] initWithCString:eigenNameArr[iNearest] encoding:NSUTF8StringEncoding];
 	} else
 		printf("match FAIL!");
 
@@ -70,6 +74,7 @@
 	eigenValMat = 0; // eigenvalues
 	projectedTrainFaceMat = 0; // projected training faces
 	eigenNameArr = 0;  // the person numbers during training
+	self.faceName = nil;
 	
 	if(![self loadTrainingData])
 		NSLog(@"No training data");
@@ -129,6 +134,7 @@
 		char varname[200];
 		sprintf( varname, "eigenVect_%d", i );
 		eigenVectArr[i] = (IplImage *)cvReadByName(fileStorage, 0, varname, 0);
+		printf("Loaded eigen %d\n", i);
 	}
 	
 	eigenNameArr = (char**)malloc(nEigens * sizeof(char*));
@@ -136,6 +142,7 @@
 		char varname[200];
 		sprintf( varname, "eigenName_%d", i );
 		char *eigenName = (char*)cvReadStringByName(fileStorage, 0, varname, 0);
+		printf("eigen %d is: %s\n", i, eigenName); 
 		int eigenNameLen = strlen(eigenName);
 		eigenNameArr[i] = malloc(eigenNameLen + 1);
 		memcpy(eigenNameArr[i],

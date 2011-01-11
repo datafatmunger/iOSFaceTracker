@@ -24,11 +24,14 @@
 	
 	char **eigenNameArr; // array of names
 	
+	NSString *_faceName;
+	
 
 }
 
 @property(nonatomic,assign)int nTrainFaces;
 @property(nonatomic,assign)IplImage **faceImgArr;
+@property(nonatomic,retain)NSString *faceName;
 
 -(void)clearTrainingData;
 -(void)learn:(iOSFTEigenfaceRecognizer*)recognizer;

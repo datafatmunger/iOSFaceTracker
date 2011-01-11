@@ -19,6 +19,7 @@
 
 @synthesize faceImgArr;
 @synthesize nTrainFaces;
+@synthesize faceName = _faceName;
 
 -(id)init {
 	if(self = [super init]) {
@@ -88,7 +89,7 @@
 						   //projectedTrainFaceMat->data.fl + i*nEigens);
 						   projectedTrainFaceMat->data.fl + i*offset);
 		
-		eigenNameArr[i] = "James Bryan Graves";
+		eigenNameArr[i] = (char*)[_faceName cStringUsingEncoding:NSUTF8StringEncoding];
 	}
 	
 	if(recognizer) {
@@ -107,6 +108,17 @@
 		}
 		
 		eigenVectArr = concatedEigenVectArr;
+		
+		char** concatedEigenNameArr = (char**)malloc((nEigens + recognizer.nEigens) * sizeof(char*));
+		for(i = 0; i < nEigens; i++) {
+			concatedEigenNameArr[i] = eigenNameArr[i];
+		}
+		
+		for(NSInteger j = 0; j < recognizer.nEigens; j++) {
+			concatedEigenNameArr[i + j] = recognizer.eigenNameArr[j];
+		}
+		
+		eigenNameArr = concatedEigenNameArr;
 		
 		nTrainFaces += recognizer.nTrainFaces;
 		nEigens += recognizer.nEigens;

@@ -18,7 +18,8 @@
 #if TARGET_OS_EMBEDDED
 AVCaptureVideoDataOutputSampleBufferDelegate,
 #endif
-iOSFTSettingsControllerDelegate> {
+iOSFTSettingsControllerDelegate,
+UITextFieldDelegate> {
 	
 	//Training stuff - JBG
 	BOOL _trainingMode;
@@ -36,6 +37,10 @@ iOSFTSettingsControllerDelegate> {
 	iOSFTEigenfaceTrainer *trainer;
 	
 	UIImage *_processedImage;
+	
+	UIView *_promptView;
+	UITextField *_nameField;
+	UIActivityIndicatorView *_actView;
 
 }
 
@@ -43,6 +48,9 @@ iOSFTSettingsControllerDelegate> {
 @property(retain) AVCaptureSession *session;
 #endif
 @property(nonatomic,retain)IBOutlet iOSFTContentView *contentView;
+@property(nonatomic,retain)IBOutlet UIView *promptView;
+@property(nonatomic,retain)IBOutlet UITextField *nameField;
+@property(nonatomic,retain)IBOutlet UIActivityIndicatorView *actView;
 @property(nonatomic,assign)BOOL trainingMode;
 
 -(void)clearTrainingData;

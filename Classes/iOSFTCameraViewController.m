@@ -16,10 +16,29 @@
 @implementation iOSFTCameraViewController
 
 @synthesize contentView;
+@synthesize promptView = _promptView;
+@synthesize nameField = _nameField;
 #if TARGET_OS_EMBEDDED
 @synthesize session;
 #endif
 @synthesize trainingMode = _trainingMode;
+@synthesize actView = _actView;
+
+-(void)showPrompt:(BOOL)show {
+	[UIView animateWithDuration:0.125 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^(void){
+		_promptView.frame = CGRectMake(show ? 20 : 320,
+									   50,
+									   280,
+									   141);
+	} completion:^(BOOL finished){
+		
+	}];
+}
+
+-(void)prompt {
+	[self showPrompt:YES];
+	[_nameField becomeFirstResponder];
+}
 
 -(void)process:(uint8_t*)readblePixels width:(size_t)width height:(size_t)height {
 	IplImage *iplimage = cvCreateImage(cvSize(width, height), IPL_DEPTH_8U, 4);
@@ -78,6 +97,7 @@
 				[recognizer recognize:sized_image];
 			}
 		} else {
+			recognizer.faceName = nil;
 			NSLog(@"Gathering training faces. . .image %d (%d, %d)",
 				  trainer.nTrainFaces,
 				  sized_image->width,
@@ -85,12 +105,8 @@
 			trainer.faceImgArr[trainer.nTrainFaces] = sized_image;
 			trainer.nTrainFaces++;
 			if(trainer.nTrainFaces == NUM_TRAINING_FACES) {
-				NSLog(@"Training. . .");
-				
-				[trainer learn:recognizer.nTrainFaces > 0 ? recognizer : nil];
-				
-				_trainingMode = NO;
-				[recognizer reloadTrainingData];
+				[self.session stopRunning];
+				[self performSelectorOnMainThread:@selector(prompt) withObject:nil waitUntilDone:YES];
 			}
 		}
 		
@@ -108,8 +124,8 @@
 		cvrect2scale.origin.y  = ((centerX / (float) width) * 480) - cvrect2scale.size.height / 2;
 		
 		contentView.faceRect = cvrect2scale;
-		
 		contentView.image = [iOSFTUtils createUIImageFromIplImage:sized_image];
+		contentView.faceName = recognizer.faceName;
 		
 		cvResetImageROI(small_image);
 		cvReleaseImage(&cropped_image);
@@ -220,11 +236,39 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 - (void)dealloc {
 	[recognizer release], recognizer = nil;
 	[trainer release], trainer = nil;
+	
+	self.promptView = nil;
+	self.nameField = nil;
+	
 #if TARGET_OS_EMBEDDED
 	cvReleaseMemStorage(&storage);
 	cvReleaseHaarClassifierCascade(&cascade);
 #endif
 	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+-(void)textFieldDidEndEditing:(UITextField *)textField {	
+	trainer.faceName = textField.text;
+	NSLog(@"Training. . .");
+	
+	[trainer learn:recognizer.nTrainFaces > 0 ? recognizer : nil];
+	
+	_trainingMode = NO;
+	[recognizer reloadTrainingData];
+	
+	[_actView stopAnimating];
+	[self showPrompt:NO];
+	
+	[self.session startRunning];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+	[_actView startAnimating];
+	[_nameField resignFirstResponder];
+	return YES;
 }
 
 #pragma mark -
