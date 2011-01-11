@@ -12,6 +12,7 @@
 @protocol iOSFTSettingsControllerDelegate <NSObject>
 
 -(void)isDone;
+-(void)clearTrainingData;
 
 @end
 
@@ -32,7 +33,7 @@
 
 @property(nonatomic,retain)iOSFTFacebookProcessor *fbProcessor;
 
-
+-(IBAction)clearTrainingData:(id)sender;
 -(IBAction)done:(id)sender;
 -(void)formatButtons;
 -(IBAction)login:(id)sender;

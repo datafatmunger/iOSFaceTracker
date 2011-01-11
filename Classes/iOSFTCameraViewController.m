@@ -86,7 +86,9 @@
 			trainer.nTrainFaces++;
 			if(trainer.nTrainFaces == NUM_TRAINING_FACES) {
 				NSLog(@"Training. . .");
-				[trainer learn];
+				
+				[trainer learn:recognizer.nTrainFaces > 0 ? recognizer : nil];
+				
 				_trainingMode = NO;
 				[recognizer reloadTrainingData];
 			}
@@ -232,7 +234,11 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
 #if TARGET_OS_EMBEDDED
 	[self.session startRunning];
 #endif
-	
+}
+
+-(void)clearTrainingData {
+	[trainer clearTrainingData];
+	[recognizer reloadTrainingData];
 }
 
 @end

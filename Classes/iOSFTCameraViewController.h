@@ -45,6 +45,7 @@ iOSFTSettingsControllerDelegate> {
 @property(nonatomic,retain)IBOutlet iOSFTContentView *contentView;
 @property(nonatomic,assign)BOOL trainingMode;
 
+-(void)clearTrainingData;
 -(IBAction)onInfo:(id)sender;
 
 @end

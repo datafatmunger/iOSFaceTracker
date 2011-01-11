@@ -11,7 +11,7 @@
 @interface iOSFTEigenfaceRecognizer (Private)
 
 -(NSInteger)findNearestNeighbor:(float*)projectedTestFace;
--(NSInteger)loadTrainingData:(CvMat**)pTrainPersonNumMat;
+-(NSInteger)loadTrainingData;
 
 @end
 
@@ -19,17 +19,14 @@
 @implementation iOSFTEigenfaceRecognizer
 
 @synthesize nTrainFaces;
+@synthesize nEigens;
+@synthesize pAvgTrainImg;
+@synthesize eigenVectArr;
+@synthesize eigenValMat;
+@synthesize projectedTrainFaceMat;
 
 -(id)init {
-	if(self = [super init]) {
-		nTrainFaces = 0; // the number of training images
-		nEigens = 0; // the number of eigenvalues
-		pAvgTrainImg = 0; // the average image
-		eigenVectArr = 0; // eigenvectors
-		eigenValMat = 0; // eigenvalues
-		projectedTrainFaceMat = 0; // projected training faces
-		trainPersonNumMat = 0;  // the person numbers during training
-		
+	if(self = [super init]) {		
 		// load the saved training data
 		[self reloadTrainingData];
 	}
@@ -43,7 +40,7 @@
 	// project the test images onto the PCA subspace
 	projectedTestFace = (float*)cvAlloc(nEigens * sizeof(float));
 
-	int iNearest = 0, nearest = 0, truth = 0;
+	int iNearest = 0;//, nearest = 0, truth = 0;
 	
 	// project the test image onto the PCA subspace
 	cvEigenDecomposite(face,
@@ -57,15 +54,24 @@
 	
 	//This would be the id of the person. . .if I stored that shit - JBG
 	//nearest  = trainPersonNumMat->data.i[iNearest];
-	if(iNearest > -1)
-		printf("nearest = %d", iNearest);
-	else
+	if(iNearest > -1) {
+		printf("nearest = %d\n");
+		printf("name = %s\n", eigenNameArr[iNearest]);
+	} else
 		printf("match FAIL!");
 
 }
 
 -(void)reloadTrainingData {
-	if(![self loadTrainingData:&trainPersonNumMat])
+	nTrainFaces = 0; // the number of training images
+	nEigens = 0; // the number of eigenvalues
+	pAvgTrainImg = 0; // the average image
+	eigenVectArr = 0; // eigenvectors
+	eigenValMat = 0; // eigenvalues
+	projectedTrainFaceMat = 0; // projected training faces
+	eigenNameArr = 0;  // the person numbers during training
+	
+	if(![self loadTrainingData])
 		NSLog(@"No training data");
 }
 
@@ -97,7 +103,7 @@
 	return iNearest;
 }
 
--(NSInteger)loadTrainingData:(CvMat**)pTrainPersonNumMat {
+-(NSInteger)loadTrainingData {
 	
 	CvFileStorage * fileStorage;
 	int i;
@@ -115,15 +121,27 @@
 	
 	nEigens = cvReadIntByName(fileStorage, 0, "nEigens", 0);
 	nTrainFaces = cvReadIntByName(fileStorage, 0, "nTrainFaces", 0);
-	*pTrainPersonNumMat = (CvMat *)cvReadByName(fileStorage, 0, "trainPersonNumMat", 0);
-	eigenValMat  = (CvMat *)cvReadByName(fileStorage, 0, "eigenValMat", 0);
+	eigenValMat  = (CvMat*)cvReadByName(fileStorage, 0, "eigenValMat", 0);
 	projectedTrainFaceMat = (CvMat *)cvReadByName(fileStorage, 0, "projectedTrainFaceMat", 0);
-	pAvgTrainImg = (IplImage *)cvReadByName(fileStorage, 0, "avgTrainImg", 0);
-	eigenVectArr = (IplImage **)cvAlloc(nTrainFaces*sizeof(IplImage *));
-	for(i=0; i<nEigens; i++) {
+	pAvgTrainImg = (IplImage*)cvReadByName(fileStorage, 0, "avgTrainImg", 0);
+	eigenVectArr = (IplImage**)cvAlloc(nTrainFaces * sizeof(IplImage*));
+	for(i=0; i < nEigens; i++) {
 		char varname[200];
 		sprintf( varname, "eigenVect_%d", i );
 		eigenVectArr[i] = (IplImage *)cvReadByName(fileStorage, 0, varname, 0);
+	}
+	
+	eigenNameArr = (char**)malloc(nEigens * sizeof(char*));
+	for(i=0; i< nEigens; i++) {
+		char varname[200];
+		sprintf( varname, "eigenName_%d", i );
+		char *eigenName = (char*)cvReadStringByName(fileStorage, 0, varname, 0);
+		int eigenNameLen = strlen(eigenName);
+		eigenNameArr[i] = malloc(eigenNameLen + 1);
+		memcpy(eigenNameArr[i],
+			   eigenName,
+			   eigenNameLen);
+		eigenNameArr[i][eigenNameLen] = '\0';
 	}
 	
 	// release the file-storage interface

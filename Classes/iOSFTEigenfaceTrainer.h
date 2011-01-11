@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "iOSFTEigenfaceRecognizer.h"
 #import <opencv/cv.h>
 #import <opencv/cvaux.h>
 
 @interface iOSFTEigenfaceTrainer : NSObject {
 	
-	CvMat *personNumTruthMat; // array of person numbers
 	int nTrainFaces; // the number of training images
 	int nEigens; // the number of eigenvalues
 	IplImage *pAvgTrainImg; // the average image
@@ -22,12 +22,15 @@
 	CvMat *trainPersonNumMat;  // the person numbers during training
 	IplImage **faceImgArr; // array of face images
 	
+	char **eigenNameArr; // array of names
+	
 
 }
 
 @property(nonatomic,assign)int nTrainFaces;
 @property(nonatomic,assign)IplImage **faceImgArr;
 
--(void)learn;
+-(void)clearTrainingData;
+-(void)learn:(iOSFTEigenfaceRecognizer*)recognizer;
 
 @end

@@ -41,7 +41,14 @@
 	appDelegate.cameraController.trainingMode = [sender isOn];
 }
 
+-(IBAction)clearTrainingData:(id)sender {
+	[_delegate clearTrainingData];
+	_statusLabel.text = NSLocalizedString(@"Training Data Cleared",
+										  @"Training Data Cleared");
+}
+
 -(IBAction)done:(id)sender {
+	_statusLabel.text = nil;
 	[_delegate isDone];
 	[self dismissModalViewControllerAnimated:YES];
 }

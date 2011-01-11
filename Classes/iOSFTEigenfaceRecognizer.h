@@ -18,10 +18,15 @@
 	IplImage **eigenVectArr; // eigenvectors
 	CvMat *eigenValMat; // eigenvalues
 	CvMat *projectedTrainFaceMat; // projected training faces
-	CvMat *trainPersonNumMat;  // the person numbers during training
+	char **eigenNameArr;
 }
 
-@property(readonly)int nTrainFaces;
+@property(nonatomic,readonly)int nTrainFaces;
+@property(nonatomic,readonly)int nEigens;
+@property(nonatomic,readonly)IplImage *pAvgTrainImg;
+@property(nonatomic,readonly)IplImage **eigenVectArr;
+@property(nonatomic,readonly)CvMat *eigenValMat;
+@property(nonatomic,readonly)CvMat *projectedTrainFaceMat;
 
 -(void)recognize:(IplImage*)face;
 -(void)reloadTrainingData;
